@@ -40,7 +40,15 @@ import {
 	CategoryList,
 	CategoryShow,
 } from "./pages/categories";
+import { Home, MyProfile } from "./pages";
 import { Login } from "./pages/login";
+import { AgentProfile, Agents } from "./pages/agent";
+import {
+	AllProperties,
+	CreateProperty,
+	EditProperty,
+	PropertyDetail,
+} from "./pages/properties";
 import { parseJwt } from "./utils/parse-jwt";
 
 import { MuiInferencer } from "@refinedev/inferencer/mui";
@@ -156,6 +164,7 @@ function App() {
 								resources={[
 									{
 										name: "my-profile",
+										options: { label: "My Profile" },
 										list: MuiInferencer,
 										icon: <AccountCircleOutlined />,
 									},
