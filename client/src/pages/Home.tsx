@@ -12,7 +12,7 @@ import { Typography, Box, Stack } from "@pankod/refine-mui";
 const Home = () => {
 	return (
 		<Box>
-			<Typography fontSize={25} fontWeight={700} colors="#11142D">
+			<Typography fontSize={25} fontWeight={700} color="#11142D">
 				Dashboard
 			</Typography>
 			<Box mt="2px" display="flex" flexWrap="wrap" gap={4}>

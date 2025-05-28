@@ -47,7 +47,7 @@ import {
 	AllProperties,
 	CreateProperty,
 	EditProperty,
-	PropertyDetail,
+	PropertyDetails,
 } from "./pages/properties";
 import { parseJwt } from "./utils/parse-jwt";
 
@@ -243,6 +243,9 @@ function App() {
 											<Route path="create" element={<BlogPostCreate />} />
 											<Route path="edit/:id" element={<BlogPostEdit />} />
 											<Route path="show/:id" element={<BlogPostShow />} />
+										</Route>
+										<Route path="/myprofile">
+											<Route index element={<MyProfile />} />
 										</Route>
 										<Route path="/categories">
 											<Route index element={<CategoryList />} />

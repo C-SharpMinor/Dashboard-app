@@ -1,7 +1,8 @@
 import Home from "./Home";
 import MyProfile from "./MyProfile"
 import { Login } from "./login";
-import { AgentProfile, Agents } from "./agent";
+import AgentProfile from "./agent/AgentProfile";
+import Agents from "./agent/Agents";
 import {
     AllProperties,
     CreateProperty,
