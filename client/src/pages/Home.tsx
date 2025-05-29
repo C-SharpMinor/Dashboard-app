@@ -7,7 +7,7 @@ import {
 	TopAgent,
 } from "../components";
 
-import { Typography, Box, Stack } from "@pankod/refine-mui";
+import { Typography, Box, Stack } from "@mui/material";
 
 const Home = () => {
 	return (

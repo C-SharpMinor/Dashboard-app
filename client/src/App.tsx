@@ -239,12 +239,12 @@ function App() {
 											element={<NavigateToResource resource="blog_posts" />}
 										/>
 										<Route path="/blog-posts">
-											<Route index element={<BlogPostList />} />
+											<Route index element={<Home />} />
 											<Route path="create" element={<BlogPostCreate />} />
 											<Route path="edit/:id" element={<BlogPostEdit />} />
 											<Route path="show/:id" element={<BlogPostShow />} />
 										</Route>
-										<Route path="/myprofile">
+										<Route path="/my-profile">
 											<Route index element={<MyProfile />} />
 										</Route>
 										<Route path="/categories">
