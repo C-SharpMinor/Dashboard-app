@@ -163,6 +163,12 @@ function App() {
 								authProvider={authProvider}
 								resources={[
 									{
+										name: "Dashboard",
+										options: { label: "Dashboard" },
+										list: "/dashboard",
+										icon: <VillaOutlined />,
+									},
+									{
 										name: "my-profile",
 										options: { label: "My Profile" },
 										list: MuiInferencer,
@@ -187,17 +193,7 @@ function App() {
 										// 	canDelete: true,
 										// },
 									},
-									{
-										name: "categories",
-										list: "/categories",
-										create: "/categories/create",
-										edit: "/categories/edit/:id",
-										show: "/categories/show/:id",
-										meta: {
-											canDelete: true,
-										},
-										icon: <VillaOutlined />,
-									},
+
 									{
 										name: "review",
 										list: MuiInferencer,
@@ -236,10 +232,10 @@ function App() {
 									>
 										<Route
 											index
-											element={<NavigateToResource resource="blog_posts" />}
+											element={<Home />} //{<NavigateToResource resource="blog_posts" />}
 										/>
 										<Route path="/blog-posts">
-											<Route index element={<Home />} />
+											<Route index element={<BlogPostList />} />
 											<Route path="create" element={<BlogPostCreate />} />
 											<Route path="edit/:id" element={<BlogPostEdit />} />
 											<Route path="show/:id" element={<BlogPostShow />} />
@@ -247,11 +243,8 @@ function App() {
 										<Route path="/my-profile">
 											<Route index element={<MyProfile />} />
 										</Route>
-										<Route path="/categories">
-											<Route index element={<CategoryList />} />
-											<Route path="create" element={<CategoryCreate />} />
-											<Route path="edit/:id" element={<CategoryEdit />} />
-											<Route path="show/:id" element={<CategoryShow />} />
+										<Route path="/dashboard">
+											<Route index element={<Home />} />
 										</Route>
 										<Route path="*" element={<ErrorComponent />} />
 									</Route>

@@ -21,6 +21,9 @@ const PieChart = ({ title, value, series, colors }: PieChartProps) => {
 					legend: { show: false },
 					dataLabels: { enabled: false },
 				}}
+				type="pie"
+				series={series}
+				height={150}
 			/>
 		</Box>
 	);
