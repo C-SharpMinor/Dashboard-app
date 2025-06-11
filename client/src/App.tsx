@@ -169,17 +169,12 @@ function App() {
 										icon: <VillaOutlined />,
 									},
 									{
-										name: "my-profile",
-										options: { label: "My Profile" },
-										list: MuiInferencer,
-										icon: <AccountCircleOutlined />,
-									},
-									{
-										name: "Properties",
-										list: "/blog-posts",
-										create: "/blog-posts/create",
-										edit: "/blog-posts/edit/:id",
-										show: "/blog-posts/show/:id",
+										name: "properties",
+										//options: { label: "properties" },
+										list: "/properties",
+										show: "/properties/details/:id",
+										create: '/properties/create',
+										edit: "/properties/edit",
 										meta: {
 											canDelete: true,
 										},
@@ -192,6 +187,12 @@ function App() {
 										// meta: {
 										// 	canDelete: true,
 										// },
+									},
+									{
+										name: "my-profile",
+										options: { label: "My Profile" },
+										list: '/my-profile',
+										icon: <AccountCircleOutlined />,
 									},
 
 									{
@@ -234,6 +235,15 @@ function App() {
 											index
 											element={<Home />} //{<NavigateToResource resource="blog_posts" />}
 										/>
+										<Route path="/dashboard">
+											<Route index element={<Home />} />
+										</Route>
+										<Route path="/properties">
+											<Route index element={<AllProperties />} />
+											<Route path='details/:id' element={<PropertyDetails />} />
+											<Route path='create' element={<CreateProperty />} />
+											<Route path='edit/:id' element={<EditProperty />} />
+										</Route>
 										<Route path="/blog-posts">
 											<Route index element={<BlogPostList />} />
 											<Route path="create" element={<BlogPostCreate />} />
@@ -242,9 +252,6 @@ function App() {
 										</Route>
 										<Route path="/my-profile">
 											<Route index element={<MyProfile />} />
-										</Route>
-										<Route path="/dashboard">
-											<Route index element={<Home />} />
 										</Route>
 										<Route path="*" element={<ErrorComponent />} />
 									</Route>

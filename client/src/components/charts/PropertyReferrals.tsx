@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { propertyReferralsInfo } from "constants/index";
+import { propertyReferralsInfo } from "../../constants/index"
 
 interface ProgressBarProps {
 	title: string;
@@ -8,7 +8,7 @@ interface ProgressBarProps {
 	color: string;
 }
 
-const ProgressBar = ({ title, percentage, color }: ProgressBarProps) => {
+const ProgressBar = ({ title, percentage, color }: ProgressBarProps) => (
 	<Box width="100%">
 		<Stack direction="row" alignItems="center" justifyContent="space-between">
 			<Typography fontSize={16} fontWeight={500} color="#11142d">
@@ -21,15 +21,15 @@ const ProgressBar = ({ title, percentage, color }: ProgressBarProps) => {
 		<Box
 			mt={2}
 			position="relative"
-			width="100px"
+			width="100%"
 			height="8px"
 			borderRadius={1}
-			bgcolor={"#e4e8ef"}
+			bgcolor="#e4e8ef"
 		>
-			<Box width={`${percentage}%`} bgcolor={color} />
+			<Box width={`${percentage}%`} position='absolute' bgcolor={color} height='100%' borderRadius={1} />
 		</Box>
-	</Box>;
-};
+	</Box>
+);
 
 const PropertyReferrals = () => {
 	return (
@@ -47,11 +47,7 @@ const PropertyReferrals = () => {
 			</Typography>
 			<Stack my="20px" direction="column" gap={4}>
 				{propertyReferralsInfo.map((bar) => (
-					<ProgressBar
-						key={bar.title}
-						title={bar.title}
-						percentage={bar.percentage}
-						color={bar.color}
+					<ProgressBar key={bar.title} {...bar} 
 					/>
 				))}
 			</Stack>

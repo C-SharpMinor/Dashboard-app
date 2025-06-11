@@ -41,7 +41,7 @@ const Home = () => {
 					colors={["#475be8", "#b4083f"]}
 				/>
 			</Box>
-			<Stack mt="25px" width="100%" direction={{ xs: "column", lg: "row" }}>
+			<Stack mt="25px" width="100%" gap={4} direction={{ xs: "column", lg: "row" }}>
 				<TotalRevenue />
 				<PropertyReferrals />
 			</Stack>
