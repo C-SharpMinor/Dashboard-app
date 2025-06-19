@@ -1,0 +1,10 @@
+const express = require('express')
+const router= express.Router()
+const {}= require('../controllers/userControllers')
+const {}= require('../controllers/propertyControllers')
+
+router('/').get()
+router('/:id').get()
+router('/').post()
+router('/').patch()
+router('/').delete()
