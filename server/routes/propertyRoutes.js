@@ -1,11 +1,12 @@
 const express= require('express')
-const routes= express.Router()
+const router= express.Router()
 
-const {}= require('../contollers/propertyControllers.js')
+const {getAllProperties, getProperty, createProperty, updateProperty, deleteProperty }= require('../contollers/propertyControllers.js')
 
-router('/').get()
-router('/id:').get()
-router('/').post()
-router('/').patch()
-router('/').update()
-router('/').delete()
+router('/').get(getAllProperties)
+router('/id:').get(getProperty)
+router('/').post(createProperty)
+router('/').patch(updateProperty)
+router('/').delete(deleteProperty)
+
+module.exports = router
