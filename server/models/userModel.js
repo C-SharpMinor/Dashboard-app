@@ -7,4 +7,4 @@ img:{type: String}}
 )
 const userModel = mongoose.model('User', userSchema)
 
-modules.export = userModel
+module.export = userModel

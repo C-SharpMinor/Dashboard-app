@@ -76,13 +76,29 @@ function App() {
 			const profileObj = credential ? parseJwt(credential) : null;
 
 			if (profileObj) {
-				localStorage.setItem(
-					"user",
-					JSON.stringify({
-						...profileObj,
+				const response = await fetch("http://localhost:5000/api/v1/users", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						name: profileObj.name,
+						email: profileObj.email,
 						avatar: profileObj.picture,
-					})
-				);
+					}),
+				});
+				const data = await response.json();
+
+				if (response.status == 200) {
+					localStorage.setItem(
+						"user",
+						JSON.stringify({
+							...profileObj,
+							avatar: profileObj.picture,
+							userId: data._id,
+						})
+					);
+				} else {
+					return Promise.reject();
+				}
 
 				localStorage.setItem("token", `${credential}`);
 
@@ -157,7 +173,7 @@ function App() {
 					<RefineSnackbarProvider>
 						<DevtoolsProvider>
 							<Refine
-								dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+								dataProvider={dataProvider("http://localhost:5000/api/v1")} //https://api.fake-rest.refine.dev
 								notificationProvider={useNotificationProvider}
 								routerProvider={routerBindings}
 								authProvider={authProvider}
@@ -173,7 +189,7 @@ function App() {
 										//options: { label: "properties" },
 										list: "/properties",
 										show: "/properties/details/:id",
-										create: '/properties/create',
+										create: "/properties/create",
 										edit: "/properties/edit",
 										meta: {
 											canDelete: true,
@@ -191,7 +207,7 @@ function App() {
 									{
 										name: "my-profile",
 										options: { label: "My Profile" },
-										list: '/my-profile',
+										list: "/my-profile",
 										icon: <AccountCircleOutlined />,
 									},
 
@@ -240,9 +256,9 @@ function App() {
 										</Route>
 										<Route path="/properties">
 											<Route index element={<AllProperties />} />
-											<Route path='details/:id' element={<PropertyDetails />} />
-											<Route path='create' element={<CreateProperty />} />
-											<Route path='edit/:id' element={<EditProperty />} />
+											<Route path="details/:id" element={<PropertyDetails />} />
+											<Route path="create" element={<CreateProperty />} />
+											<Route path="edit/:id" element={<EditProperty />} />
 										</Route>
 										<Route path="/blog-posts">
 											<Route index element={<BlogPostList />} />
