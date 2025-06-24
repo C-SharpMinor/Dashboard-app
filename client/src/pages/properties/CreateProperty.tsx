@@ -7,7 +7,7 @@ import Form from "../../components/common/Form";
 const CreateProperty = () => {
 	const navigate = useNavigate();
 	const { data: user } = useGetIdentity();
-	const { propertyImage, setPropertyImage } = useState({ name: "", url: "" });
+	const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
 	const {
 		refineCore: { onFinish, formLoading },
 		register,
@@ -30,7 +30,11 @@ const CreateProperty = () => {
 	const onFinishHandler = async (data: FieldValues) => {
 		if (!propertyImage.name) return alert("Please select an image");
 
-		await onFinish({ ...data, photo: propertyImage.url, email: user.email });
+		await onFinish({
+			...data,
+			photo: propertyImage.url,
+			email: user?.email || "unknown",
+		});
 	};
 
 	return (
