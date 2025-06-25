@@ -17,6 +17,7 @@ import CustomButton from "./CustomButton";
 const Form = ({
 	type,
 	register,
+	onFinish,
 	handleSubmit,
 	handleImageChange,
 	formLoading,
