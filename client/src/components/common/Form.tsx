@@ -57,7 +57,7 @@ const Form = ({
 							id="outline-basic"
 							color="info"
 							variant="outlined"
-							{...register(" title", { required: true })}
+							{...register("title", { required: true })}
 						/>
 					</FormControl>
 
@@ -104,7 +104,7 @@ const Form = ({
 							</FormHelperText>
 							<Select
 								variant="outlined"
-								color="#11142d"
+								sx={{ color: "#11142d" }}
 								displayEmpty
 								required
 								inputProps={{ "aria-label": "Without-label" }}
@@ -154,7 +154,7 @@ const Form = ({
 								margin: "10px",
 							}}
 						>
-							Enter Property price{" "}
+							Enter Property location{" "}
 						</FormHelperText>
 						<TextField
 							fullWidth

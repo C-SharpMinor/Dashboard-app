@@ -1,65 +1,69 @@
-const Property= require('../models/propertyModel.js')
-const User= require('../models/userModel.js')
+const Property = require("../models/propertyModel.js");
+const User = require("../models/userModel.js");
 
-const dotenv= require('dotenv')
-dotenv.config()
-const cloudinary= require('cloudinary').v2 //this is same as import {v2 as cloudinary} from 'cloudinary'
+const dotenv = require("dotenv");
+dotenv.config();
+const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2; //this is same as import {v2 as cloudinary} from 'cloudinary'
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET 
-})
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-const getAllProperties= async(req, res)=>{
-    try{
-    
-        const allProperties= await Property.find({})
-        res.status(200).json(allProperties)
+const getAllProperties = async (req, res) => {
+	try {
+		const allProperties = await Property.find({});
+		res.status(200).json(allProperties);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+const getProperty = async (req, res) => {};
+const deleteProperty = async (req, res) => {};
+const updateProperty = async (req, res) => {};
 
-    }
-    catch(error){
-        res.status(500).json({message: error.message})
-    }
-}
-const getProperty= async(req, res)=>{}
-const deleteProperty= async(req, res)=>{}
-const updateProperty= async(req, res)=>{}
+const createProperty = async (req, res) => {
+	try {
+		const { title, description, propertyType, location, price, photo, email } =
+			req.body;
 
-const createProperty= async(req, res)=>{
-    try{
-        const {title, description, propertyType, location, price, photo, email}= req.body
+		//starting a session
+		const session = await mongoose.startSession();
+		session.startTransaction();
 
-        //starting a session
-        const session= await mongoose.startSession()
-        session.startTransaction()
+		const user = await User.findOne({ email }).session(session);
 
-        const user= await User.findOne({email}).session(session)
-        
-        if(!user) throw new Error("user not found")
-        
-        const photoURL= await cloudinary.uploader.upload(photo)
+		if (!user) throw new Error("user not found");
 
-        const newProperty= await Property.create({
-            title, 
-            description,
-            propertyType,
-            location,
-            price,
-            photo,
-            creator: user._id})
+		const photoURL = await cloudinary.uploader.upload(photo);
 
-        user.allProperties.push(newProperty._id)
-        await user.save({session})
+		const newProperty = await Property.create({
+			title,
+			description,
+			propertyType,
+			location,
+			price,
+			photo,
+			creator: user._id,
+		});
 
-        await session.commitTransaction()
+		user.allProperties.push(newProperty._id); //this is the part of the mongoose session where we are linking the property here with the user that created it
+		await user.save({ session }); //this is the part we save the linking
 
-        res.status(201).json({message: "Property created successfully"})
+		await session.commitTransaction();
 
-    }
-    catch(error){
-        res.status(500).json({message: error.message})
-    }
-}
+		res.status(201).json({ message: "Property created successfully" });
+	} catch (error) {
+		res.status(500).json({ message: error });
+	}
+};
 
-module.exports= {getAllProperties, getProperty, deleteProperty, createProperty, updateProperty}
+module.exports = {
+	getAllProperties,
+	getProperty,
+	deleteProperty,
+	createProperty,
+	updateProperty,
+};

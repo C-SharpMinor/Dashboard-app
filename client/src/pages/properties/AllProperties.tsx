@@ -1,13 +1,17 @@
 import React from "react";
 import { Add } from "@mui/icons-material";
 import { Box, Stack, Typography } from "@mui/material";
-import { useList } from "@refinedev/core";
+import { useTable } from "@refinedev/core";
 import { useNavigate } from "react-router-dom";
 
 import { PropertyCard, CustomButton } from "../../components";
 
 const AllProperties = () => {
 	const navigate = useNavigate();
+	const {
+		tableQueryResult: { data, isLoading, isError },
+	} = useTable();
+
 	return (
 		<Box>
 			<Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -24,6 +28,8 @@ const AllProperties = () => {
 					icon={<Add />}
 				/>
 			</Stack>
+
+			<Box mt="20px" sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}></Box>
 		</Box>
 	);
 };

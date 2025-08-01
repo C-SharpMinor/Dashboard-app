@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { useGetIdentity } from "@refinedev/core";
-import { FieldValues, useForm } from "@refinedev/react-hook-form";
+import { useForm } from "@refinedev/react-hook-form";
+import { FieldValues } from "react-hook-form"; //would've put above but that module has no 'FieldValues' then again, useForm could've come down here but the purpose of this is to learn refine so lemme leave it with @refinedev...
+
 import { useNavigate } from "react-router-dom";
 import Form from "../../components/common/Form";
 
 const CreateProperty = () => {
+	type IUser = {
+		email: string;
+		username?: string;
+	};
+
 	const navigate = useNavigate();
-	const { data: user } = useGetIdentity();
+	const { data: user } = useGetIdentity<IUser>();
 	const [propertyImage, setPropertyImage] = useState({ name: "", url: "" });
 	const {
 		refineCore: { onFinish, formLoading },
