@@ -4,13 +4,17 @@ import { Box, Stack, Typography } from "@mui/material";
 import { useTable } from "@refinedev/core";
 import { useNavigate } from "react-router-dom";
 
-import { PropertyCard, CustomButton } from "../../components";
+import { PropertyCard, CustomButton } from "../../components/common";
 
 const AllProperties = () => {
 	const navigate = useNavigate();
 	const {
 		tableQueryResult: { data, isLoading, isError },
 	} = useTable();
+
+	const allProperties = data?.data ?? [];
+	if (isLoading) return <Typography>Loading...</Typography>;
+	if (isError) return <Typography>Error...</Typography>;
 
 	return (
 		<Box>
@@ -29,7 +33,20 @@ const AllProperties = () => {
 				/>
 			</Stack>
 
-			<Box mt="20px" sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}></Box>
+			<Box mt="20px" sx={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
+				{allProperties.map((property) => {
+					return (
+						<PropertyCard
+							key={property._id}
+							id={property._id}
+							title={property.title}
+							price={property.price}
+							location={property.location}
+							photo={property.photo}
+						/>
+					);
+				})}
+			</Box>
 		</Box>
 	);
 };
