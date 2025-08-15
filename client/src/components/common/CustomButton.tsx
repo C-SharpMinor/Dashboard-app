@@ -10,9 +10,11 @@ const CustomButton = ({
 	fullWidth,
 	icon,
 	handleClick,
+	disabled,
 }: CustomButtonProps) => {
 	return (
 		<Button
+			disabled={disabled}
 			type={type === "submit" ? "submit" : "button"} //we have to specify the type not cuz of TS but cuz if not button type is assumed to be 'button' and it won't submit the form.
 			sx={{
 				flex: fullWidth ? 1 : "unset",

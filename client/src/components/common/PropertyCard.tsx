@@ -27,6 +27,7 @@ const PropertyCard = ({
 				maxWidth: "330px",
 				padding: "10px",
 				cursor: "pointer",
+				textDecoration: "none",
 				"&:hover": {
 					boxShadow: "0 22px 45px 2px rgba(176, 176, 176, 0.1)",
 				},
