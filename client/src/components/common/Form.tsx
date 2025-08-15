@@ -104,7 +104,7 @@ const Form = ({
 							</FormHelperText>
 							<Select
 								variant="outlined"
-								sx={{ color: "#11142d" }}
+								color= "info"
 								displayEmpty
 								required
 								inputProps={{ "aria-label": "Without-label" }}
