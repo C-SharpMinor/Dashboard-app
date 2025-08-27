@@ -13,9 +13,51 @@ cloudinary.config({
 });
 
 const getAllProperties = async (req, res) => {
+	//the below is to provide the frontend with all the data it needs to implement pagination, sorting and filtering
+	const {
+		_end,
+		_order,
+		_start,
+		_sort,
+		title_like = "",
+		propertyType = "",
+	} = req.query;
+	const query = {};
+	if (propertyType !== "") {
+		query.propertyType = propertyType;
+	}
+	if (title_like) {
+		query.title = { $regex: title_like, $options: "i" }; //the options i means case insensitive
+	}
+
 	try {
-		const allProperties = await Property.find({});
-		res.status(200).json(allProperties);
+		const count = await Property.countDocuments({ query });
+
+		//this crashes because it runs even when i have not pressed the sort button yet. So sort and order would be undefined.
+		// 					the code after this was the fix
+		// const properties = await Property.find(query)
+		// 	.limit(_end)
+		// 	.skip(_start)
+		// 	.sort({ [_sort]: _order });
+
+		let dbQuery = Property.find(query)
+			.limit(parseInt(_end))
+			.skip(parseInt(_start));
+
+		if (_sort && _order) {
+			dbQuery = dbQuery.sort({ [_sort]: _order });
+		}
+
+		const properties = await dbQuery;
+
+		res.header("x-total-count", count);
+		res.header("Access-Control-Expose-Headers", "x-total-count");
+		//previous code here
+
+		// const allProperties = await Property.find({});
+		// res.status(200).json(allProperties);
+
+		//adding code to learn how to fetch all of the properties based on pagination, filtering and sorting
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

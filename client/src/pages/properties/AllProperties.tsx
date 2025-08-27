@@ -1,5 +1,5 @@
-import React from "react";
-import { Add } from "@mui/icons-material";
+import React, { useMemo } from "react";
+import { Add, FilePresentRounded } from "@mui/icons-material";
 import {
 	Box,
 	MenuItem,
@@ -22,12 +22,27 @@ const AllProperties = () => {
 		setPageSize,
 		pageCount,
 		sorter,
-		setSorters,
+		setSorter,
 		filters,
 		setFilters,
 	} = useTable();
 
 	const allProperties = data?.data ?? [];
+	const currentPrice = sorter.find((item) => item.field === "price")?.order; //this will give the current order of the price property
+	const toggleSort = (field: string) => {
+		setSorter([{ field, order: currentPrice === "asc" ? "desc" : "asc" }]);
+	};
+
+	const currentFilterValues = useMemo(() => {
+		//to make search filter functionality
+		const logicalFilters = filters.flatMap((item) =>
+			"field" in item ? item : []
+		);
+		return {
+			title: logicalFilters.find((item) => item.field === "title")?.value || "",
+		};
+	}, [filters]);
+
 	if (isLoading) return <Typography>Loading...</Typography>;
 	if (isError) return <Typography>Error...</Typography>;
 
@@ -58,8 +73,8 @@ const AllProperties = () => {
 					mb={{ xs: "20px", sm: "10px" }}
 				>
 					<CustomButton
-						title={"Sort price"}
-						handleClick={() => {}}
+						title={`Sort price ${currentPrice === "asc" ? "↑" : "↓"}`}
+						handleClick={() => toggleSort("price")}
 						backgroundColor="#475be8"
 						color="#fcfcfc"
 					/>
@@ -67,8 +82,19 @@ const AllProperties = () => {
 						variant="outlined"
 						color="info"
 						placeholder="Search by Title"
-						value=""
-						onChange={() => {}}
+						value={currentFilterValues.title}
+						onChange={(e) => {
+							//small tip- onchange always gets key pressdown even 'e' passed in it. since it's monitoring the keyboard change
+							setFilters([
+								{
+									field: "title",
+									operator: "contains",
+									value: e.currentTarget.value
+										? e.currentTarget.value
+										: undefined,
+								},
+							]);
+						}}
 					/>
 					<Select
 						variant="outlined"
